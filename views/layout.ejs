@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Review System - <%=blocks.title%></title>
+    
+    <link rel="shortcut icon" href="/img/logo/small-logo.png" type="image/x-icon">
+    <link rel="icon" href="/img/logo/small-logo.png" type="image/x-icon">
+    
+    <!-- plugins:css -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" type="text/css" >
+    <link href="https://datatables.net/download/build/dataTables.responsive.nightly.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" />
+    
+    <!-- End layout styles -->
+    <%- style %>
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <%- include _navigation-bar %>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <%- include('_sidebar'); %>
+        
+        <div class="main-panel">
+            <!-- partial -->
+            <div class="content-wrapper">
+              <%- include('./partials/_header') %>
+              <%- include('./partials/_alerts') %>
+              <%- body %>
+              hello
+          </div>
+          <!-- main-panel ends -->
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <%- include('./partials/_footer') %>
+          <!-- partial -->
+        </div>
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- Custom js for this page -->
+    <%- script %>
+  </body>
+  <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.6.x/dist/component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://datatables.net/download/build/dataTables.responsive.nightly.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- <script src="/js/app.js"></script> -->
+    <script>
+      $('.dataTable').DataTable({responsive: true });
+      
+      // dashboard notification panel & mobile menu 
+      const setup = () => {
+          return {
+              loading: true,
+              isNotificationsPanelOpen: false,
+              openNotificationsPanel() {
+                  this.isNotificationsPanelOpen = true
+                  this.$nextTick(() => {
+                      this.$refs.notificationsPanel.focus()
+                  })
+              },
+              isMobileMainMenuOpen: false,
+              openMobileMainMenu() {
+                  this.isMobileMainMenuOpen = true
+                  this.$nextTick(() => {
+                      this.$refs.mobileMainMenu.focus()
+                  })
+              },
+          }
+      }
+
+      // pop model open & close 
+      function modal() {
+        return {
+          state: 'CLOSED', // [CLOSED, TRANSITION, OPEN]
+          open() {
+            this.state = 'TRANSITION'
+            setTimeout(() => { this.state = 'OPEN' }, 50)
+          },
+          close() {
+            this.state = 'TRANSITION';
+            $(".form-input").val('');
+            $(".edit-button").text('Create');
+            $(".edit-title").text('Create User');
+            setTimeout(() => { this.state = 'CLOSED' }, 300)
+          },
+          isOpen() { return this.state === 'OPEN' },
+          isOpening() { return this.state !== 'CLOSED' },
+        }
+      }
+
+      //hide alert after 5 sec.
+      setTimeout(function() {
+          $(".alert").slideUp();
+      }, 50000);
+
+      // date picker 
+      $(function () {
+        $(".datepicker").datepicker({"dateFormat":"yy-mm-dd"});
+      });
+
+  </script>
+</html>
